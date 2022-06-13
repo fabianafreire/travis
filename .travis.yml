@@ -1,0 +1,25 @@
+language: node_js
+node_js:
+  - "16.14.0"
+
+cache: yarn
+
+dist: focal
+
+git:
+    depth: 3
+    quiet: true
+
+before_install:
+  - echo "Realizando meu primeiro teste"
+
+jobs:
+  fast_finish: true
+  allow_failures:
+    - name: "Test 1"
+      if: branch == development
+    - name: "Test 2"
+      if: branch != development
+  include:
+    - stage: " My Project Build in stage"
+      name: "My Project name"
