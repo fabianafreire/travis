@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - "16.14.0"
 
+version: ~> 1.0
+
 cache: yarn
 
 dist: focal
@@ -16,10 +18,23 @@ before_install:
 jobs:
   fast_finish: true
   allow_failures:
-    - name: "Test 1"
-      if: branch == development
     - name: "Test 2"
-      if: branch != development
+      if: branch != production
   include:
-    - stage: " My Project Build in stage"
-      name: "My Project name"
+    - script: echo "Running my first travis project ...(1)"
+    - stage: " My Project Build"
+      name: "Tests"
+      script:
+        - echo "Testing my first project....(2)"
+        - yarn run lint
+        - yarn run test
+    - stage: "My Project deploy"
+        name: "DEV"
+        if: branch = main
+        script:
+          - echo "Running deploy...(3)
+          - ECHO $FIRST_ENV
+        deploy:
+          app:
+            main: travis
+
